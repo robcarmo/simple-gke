@@ -44,9 +44,3 @@ resource "google_artifact_registry_repository" "gcr_repo" {
   description   = "Docker repository for hello-world application"
   format        = "DOCKER"
 }
-
-resource "google_artifact_registry_repository" "hello_world" {
-  location      = "us"
-  repository_id = "hello-world"
-  format        = "DOCKER"
-}
