@@ -1,24 +1,28 @@
 provider "google" {
-  project = "gen-lang-client-0683956833"
-  region  = "us-east1"
+  project = var.project_id
+  region  = var.region
 }
 
 resource "google_container_cluster" "gke_cluster" {
-  name     = "basic-gke-cluster"
-  location = "us-east1"
+  name     = var.cluster_name
+  location = var.region
 
   remove_default_node_pool = true
   initial_node_count       = 1
 
   network    = "default"
   subnetwork = "default"
+  
+  depends_on = [
+    google_project_service.container_registry
+  ]
 }
 
 resource "google_container_node_pool" "default_pool" {
   name       = "default-pool"
   cluster    = google_container_cluster.gke_cluster.name
   location   = google_container_cluster.gke_cluster.location
-  node_count = 1
+  node_count = var.node_count
 
   node_config {
     machine_type = "e2-medium"
@@ -37,6 +41,3 @@ resource "google_compute_route" "default_internet_gateway" {
   dest_range       = "0.0.0.0/0"
   next_hop_gateway = "default-internet-gateway"
 }
-
-# this is the main cluster
-# test yyyy

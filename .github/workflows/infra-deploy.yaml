@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'infra/**'
-  workflow_dispatch:  # Allows manual triggering
+  workflow_dispatch:
 
 jobs:
   deploy-infra:
@@ -18,20 +18,12 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: '1.0.0'  # Specify your desired version
+          terraform_version: '1.0.0'
 
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
         with:
           version: 'latest'
-          
-      - name: Check if GCP_SA_KEY is set
-        run: |
-          if [ -z "${{ secrets.GCP_SA_KEY }}" ]; then
-            echo "GCP_SA_KEY is not set"
-          else
-            echo "GCP_SA_KEY is set"
-          fi      
 
       - name: Authenticate to GCP
         uses: google-github-actions/auth@v1
@@ -39,6 +31,13 @@ jobs:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
           export_environment_variables: true
           create_credentials_file: true
+
+      - name: Extract Project ID from credentials
+        id: project
+        run: |
+          PROJECT_ID=$(echo '${{ secrets.GCP_SA_KEY }}' | jq -r '.project_id')
+          echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
+          echo "project_id=$PROJECT_ID" >> $GITHUB_OUTPUT
 
       - name: Terraform Init
         run: |
@@ -48,7 +47,7 @@ jobs:
       - name: Terraform Plan
         run: |
           cd infra
-          terraform plan -out=tfplan
+          terraform plan -var="project_id=${{ env.PROJECT_ID }}" -out=tfplan
 
       - name: Terraform Apply
         run: |
