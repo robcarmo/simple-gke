@@ -12,10 +12,6 @@ resource "google_container_cluster" "gke_cluster" {
 
   network    = "default"
   subnetwork = "default"
-  
-  depends_on = [
-    google_project_service.container_registry
-  ]
 }
 
 resource "google_container_node_pool" "default_pool" {
