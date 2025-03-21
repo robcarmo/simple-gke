@@ -22,3 +22,7 @@ output "kubernetes_cluster_location" {
   description = "GKE Cluster Location"
   value       = google_container_cluster.gke_cluster.location
 }
+
+output "artifact_registry_repository" {
+  value = google_artifact_registry_repository.hello_world.name
+}

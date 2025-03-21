@@ -20,3 +20,15 @@ terraform init
 terraform plan
 terraform apply
 ```
+
+## Hello World Application
+A simple Express.js application that responds with "Hello World!"
+
+### Building and Running
+1. Install dependencies: `npm install`
+2. Run locally: `npm start`
+3. Access at: http://localhost:3000
+
+### Container Registry
+The application is automatically built and pushed to Google Container Registry on push to main branch.
+Image path: `us.gcr.io/gen-lang-client-0683956833/hello-world`
