@@ -31,4 +31,4 @@ jobs:
           context: .
           push: true
           tags: |
-            gcr.io/${{ vars.GCP_PROJECT }}/${{ github.repository }}:v1
+            gcr.io/${{ secrets.GCP_PROJECT }}/simple-gke:v1
