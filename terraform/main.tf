@@ -1,11 +1,11 @@
 provider "google" {
-  project = "<YOUR_PROJECT_ID>"
-  region  = "us-west1"
+  project = "gen-lang-client-0683956833"
+  region  = "us-east1"
 }
 
 resource "google_container_cluster" "gke_cluster" {
   name     = "basic-gke-cluster"
-  location = "us-west1"
+  location = "us-east1"
 
   remove_default_node_pool = true
   initial_node_count       = 1
@@ -18,7 +18,7 @@ resource "google_container_node_pool" "default_pool" {
   name       = "default-pool"
   cluster    = google_container_cluster.gke_cluster.name
   location   = google_container_cluster.gke_cluster.location
-  node_count = 3
+  node_count = 1
 
   node_config {
     machine_type = "e2-medium"
