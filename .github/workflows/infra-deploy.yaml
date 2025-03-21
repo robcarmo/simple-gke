@@ -18,6 +18,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@v1
         with:
           version: 'latest'
+          
       - name: Check if GCP_SA_KEY is set
         run: |
           if [ -z "${{ secrets.GCP_SA_KEY }}" ]; then
