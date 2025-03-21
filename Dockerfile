@@ -1,7 +1,13 @@
-FROM node:14-alpine
+FROM node:18-alpine
+
 WORKDIR /usr/src/app
+
+# Copy package files first for better caching
 COPY package*.json ./
 RUN npm install
-COPY . .
-EXPOSE 3000
+
+# Copy app source
+COPY app/ ./app/
+
+EXPOSE 8080
 CMD [ "npm", "start" ]

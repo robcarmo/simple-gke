@@ -23,6 +23,16 @@ output "kubernetes_cluster_location" {
   value       = google_container_cluster.gke_cluster.location
 }
 
+output "repository_id" {
+  description = "The Artifact Registry repository ID"
+  value       = google_artifact_registry_repository.gcr_repo.repository_id
+}
+
+output "repository_path" {
+  description = "The full repository path for Docker images"
+  value       = "${google_artifact_registry_repository.gcr_repo.location}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.gcr_repo.repository_id}"
+}
+
 output "artifact_registry_repository" {
   value = google_artifact_registry_repository.hello_world.name
 }

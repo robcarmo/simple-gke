@@ -38,6 +38,13 @@ resource "google_compute_route" "default_internet_gateway" {
   next_hop_gateway = "default-internet-gateway"
 }
 
+resource "google_artifact_registry_repository" "gcr_repo" {
+  location      = "us"
+  repository_id = "hello-world"
+  description   = "Docker repository for hello-world application"
+  format        = "DOCKER"
+}
+
 resource "google_artifact_registry_repository" "hello_world" {
   location      = "us"
   repository_id = "hello-world"
