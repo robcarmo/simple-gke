@@ -37,3 +37,9 @@ resource "google_compute_route" "default_internet_gateway" {
   dest_range       = "0.0.0.0/0"
   next_hop_gateway = "default-internet-gateway"
 }
+
+resource "google_artifact_registry_repository" "hello_world" {
+  location      = "us"
+  repository_id = "hello-world"
+  format        = "DOCKER"
+}
