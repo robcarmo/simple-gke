@@ -6,4 +6,9 @@ terraform {
       version = "~> 4.0"
     }
   }
+
+  backend "gcs" {
+    bucket = "gen-lang-client-0683956833-tfstate"
+    prefix = "terraform/state"
+  }
 }
