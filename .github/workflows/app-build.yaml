@@ -25,10 +25,10 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
+
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./app
           push: true
-          tags: |
-            gcr.io/${{ secrets.GCP_PROJECT }}/simple-gke:v1
+          tags: us.gcr.io/gen-lang-client-0683956833/hello-world:${{ github.sha }}
