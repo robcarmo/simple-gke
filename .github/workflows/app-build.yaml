@@ -26,6 +26,10 @@ jobs:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
           export_environment_variables: true
           create_credentials_file: true
+      - name: Configure Docker
+        run: |
+          gcloud auth configure-docker us-docker.pkg.dev
+
       - name: Test GCP Authentication
         run: |
           echo "Testing GCP Authentication..."
@@ -36,4 +40,4 @@ jobs:
         with:
           context: ./app
           push: true
-          tags: us-docker.pkg.dev/gen-lang-client-0683956833/hello-world:${{ github.sha }}
+          tags: us-docker.pkg.dev/gen-lang-client-0683956833/hello-world:latest
