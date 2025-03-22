@@ -26,7 +26,10 @@ jobs:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
           export_environment_variables: true
           create_credentials_file: true
-
+      - name: Test GCP Authentication
+        run: |
+          echo "Testing GCP Authentication..."
+          gcloud artifacts repositories list --project=gen-lang-client-0683956833 --location=us
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v3
