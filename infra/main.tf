@@ -24,10 +24,15 @@ resource "google_container_node_pool" "default_pool" {
     machine_type = "e2-medium"
     disk_size_gb = 16
     preemptible  = false
+    service_account = google_service_account.gke_nodes.email
 
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform",
     ]
+    
+    labels = {
+      env = "dev"
+    }
   }
 }
 
@@ -43,4 +48,17 @@ resource "google_artifact_registry_repository" "gcr_repo" {
   repository_id = "hello-world"
   description   = "Docker repository for hello-world application"
   format        = "DOCKER"
+}
+
+data "google_project" "current" {}
+
+resource "google_project_iam_member" "gke_nodes_artifact_access" {
+  project = data.google_project.current.project_id
+  role    = "roles/artifactregistry.reader"
+  member  = "serviceAccount:${data.google_project.current.number}-compute@developer.gserviceaccount.com"
+}
+
+resource "google_service_account" "gke_nodes" {
+  account_id   = "gke-nodes"
+  display_name = "GKE Node Pool Service Account"
 }
