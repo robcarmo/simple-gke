@@ -21,19 +21,21 @@ resource "google_container_node_pool" "default_pool" {
   node_count = var.node_count
 
   node_config {
-    machine_type = "e2-medium"
-    disk_size_gb = 16
-    preemptible  = false
+    machine_type    = "e2-medium"
+    disk_size_gb    = 16
+    preemptible     = false
     service_account = google_service_account.gke_nodes.email
 
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform",
     ]
-    
+
     labels = {
       env = "dev"
     }
   }
+
+  node_version = "latest"  # <-- explicitly required
 }
 
 resource "google_compute_route" "default_internet_gateway" {
