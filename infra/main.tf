@@ -34,8 +34,6 @@ resource "google_container_node_pool" "default_pool" {
       env = "dev"
     }
   }
-
-  node_version = "latest"  # <-- explicitly required
 }
 
 resource "google_compute_route" "default_internet_gateway" {
