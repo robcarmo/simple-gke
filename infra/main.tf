@@ -24,6 +24,7 @@ resource "google_container_node_pool" "default_pool" {
     machine_type    = "e2-medium"
     disk_size_gb    = 16
     preemptible     = false
+    image_type      = "COS_CONTAINERD"
     service_account = google_service_account.gke_nodes.email
 
     oauth_scopes = [
