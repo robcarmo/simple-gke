@@ -34,6 +34,7 @@ resource "google_container_node_pool" "default_pool" {
       env = "dev"
     }
   }
+  version = google_container_cluster.gke_cluster.master_version
 }
 
 resource "google_compute_route" "default_internet_gateway" {
