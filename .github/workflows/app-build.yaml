@@ -42,4 +42,4 @@ jobs:
           push: true
           tags: |
             us-docker.pkg.dev/gen-lang-client-0683956833/hello-world/${{ github.sha }}
-            us-docker.pkg.dev/gen-lang-client-0683956833/hello-world/hello-world:latest
+            us-docker.pkg.dev/gen-lang-client-0683956833/hello-world/latest
