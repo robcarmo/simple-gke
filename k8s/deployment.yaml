@@ -16,5 +16,6 @@ spec:
         - name: hello-world
           image: us-docker.pkg.dev/gen-lang-client-0683956833/hello-world/hello-world:latest
           imagePullPolicy: Always
+          command: ["node", "app.js"]
           ports:
             - containerPort: 3000
