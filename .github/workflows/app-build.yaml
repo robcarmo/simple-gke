@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'app/**'
-      - 'Dockerfile'
+      - 'app/Dockerfile'
 
 jobs:
   build-and-push:
