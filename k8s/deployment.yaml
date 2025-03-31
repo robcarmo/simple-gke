@@ -1,20 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-world
+  name: hello-world-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hello-world
+      app: hello-world-app
   template:
     metadata:
       labels:
-        app: hello-world
+        app: hello-world-app
     spec:
       containers:
-        - name: hello-world
-          image: us-docker.pkg.dev/gen-lang-client-0683956833/hello-world/hello-world:latest
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 3000
+      - name: hello-world-app
+        image: hello-world-app:latest
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 2
