@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: hello-world-app
-        image: hello-world-app:latest
+        image: us-docker.pkg.dev/gen-lang-client-0683956833/hello-world:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         livenessProbe:
