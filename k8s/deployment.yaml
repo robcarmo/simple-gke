@@ -6,24 +6,15 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hello-world-app
+      app: hello-world
   template:
     metadata:
       labels:
-        app: hello-world-app
+        app: hello-world
     spec:
       containers:
       - name: hello-world-app
-        image: hello-world-app:latest
+        image: us-docker.pkg.dev/gen-lang-client-0683956833/hello-world/latest
+        imagePullPolicy: Always
         ports:
-        - containerPort: 8080
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 8080
-          initialDelaySeconds: 5
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 8080
-          initialDelaySeconds: 2
+          - containerPort: 3000
