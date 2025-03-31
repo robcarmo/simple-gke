@@ -1,7 +1,6 @@
 name: Manual Cluster Verification
-
 on:
-  workflow_dispatch:  # Changed from workflow_run
+  workflow_dispatch:
     inputs:
       cluster_name:
         description: 'GKE Cluster Name'
@@ -38,7 +37,7 @@ jobs:
           kubectl get deployment hello-world -o jsonpath='{.status.availableReplicas}' | grep 1
 
       - name: End-to-End Test
-        timeout-minutes: ${{ fromJSON(github.event.inputs.timeout) / 60 }}
+        timeout-minutes: ${{ fromJSON(github.event.inputs.timeout) * 0.0166666667 }}
         run: |
           EXTERNAL_IP=$(kubectl get service hello-world -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
           curl -s "http://$EXTERNAL_IP" \
