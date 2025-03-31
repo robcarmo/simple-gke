@@ -1,0 +1,48 @@
+name: Manual Cluster Verification
+
+on:
+  workflow_dispatch:  # Changed from workflow_run
+    inputs:
+      cluster_name:
+        description: 'GKE Cluster Name'
+        required: true
+        default: 'basic-gke-cluster'
+      location:
+        description: 'GCP Region'
+        required: true
+        default: 'us-east1'
+      timeout:
+        description: 'Test Timeout (seconds)'
+        required: true
+        default: '300'
+
+jobs:
+  cluster-verification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate Inputs
+        run: |
+          echo "Testing cluster: ${{ github.event.inputs.cluster_name }}"
+          echo "Region: ${{ github.event.inputs.location }}"
+          echo "Timeout: ${{ github.event.inputs.timeout }} seconds"
+
+      - name: Configure GKE Access
+        uses: google-github-actions/get-gke-credentials@v1
+        with:
+          cluster_name: ${{ github.event.inputs.cluster_name }}
+          location: ${{ github.event.inputs.location }}
+          credentials: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Verify Deployment
+        run: |
+          kubectl get deployment hello-world -o jsonpath='{.status.availableReplicas}' | grep 1
+
+      - name: End-to-End Test
+        timeout-minutes: ${{ fromJSON(github.event.inputs.timeout) / 60 }}
+        run: |
+          EXTERNAL_IP=$(kubectl get service hello-world -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          curl -s "http://$EXTERNAL_IP" \
+            --retry 5 \
+            --retry-delay 10 \
+            --max-time ${{ github.event.inputs.timeout }} \
+            | grep "Hello World!"
