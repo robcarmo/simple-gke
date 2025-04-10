@@ -19,7 +19,6 @@ resource "google_container_node_pool" "default_pool" {
   cluster    = google_container_cluster.gke_cluster.name
   location   = google_container_cluster.gke_cluster.location
   node_count = var.node_count
-  machine_type = "e2-medium"
   node_config {
     machine_type    = "e2-medium"
     disk_size_gb    = 16
