@@ -44,9 +44,9 @@ jobs:
         id: init
         run: terraform init -backend-config="bucket=gen-lang-client-0683956833-tfstate"
         env:
-          TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
+          #TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
           TF_VAR_region: us-east1
-          TF_VAR_tfstate_bucket_name: ${{ secrets.GCP_BK_TF }}
+          #TF_VAR_tfstate_bucket_name: ${{ secrets.GCP_BK_TF }}
           
       - name: Check if state exists
         id: check_state
