@@ -41,9 +41,11 @@ jobs:
           create_credentials_file: true
 
       - name: Terraform Init
-        run: |
-          cd infra
-          terraform init
+        id: init
+        run: terraform init -backend-config="bucket=${{ secrets.GCP_BK_TF }}"
+        env:
+          TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
+          TF_VAR_region: ${{ secrets.GCP_REGION }}
 
       - name: Check if state exists
         id: check_state
@@ -54,19 +56,6 @@ jobs:
           else
             echo "state_exists=false" >> $GITHUB_OUTPUT
           fi
-
-      - name: Import existing resources
-        if: steps.check_state.outputs.state_exists == 'false'
-        run: |
-          cd infra
-          # Import the GKE cluster
-          terraform import google_container_cluster.gke_cluster projects/gen-lang-client-0683956833/locations/us-east1/clusters/basic-gke-cluster
-          
-          # Import the node pool
-          terraform import google_container_node_pool.default_pool projects/gen-lang-client-0683956833/locations/us-east1/clusters/basic-gke-cluster/nodePools/default-pool
-          
-          # Import the route
-          terraform import google_compute_route.default_internet_gateway projects/gen-lang-client-0683956833/global/routes/default-internet-gateway
 
       - name: Terraform Plan
         run: |

@@ -50,9 +50,11 @@ jobs:
           create_credentials_file: true
 
       - name: Terraform Init
-        run: |
-          cd infra
-          terraform init
+        id: init
+        run: terraform init -backend-config="bucket=${{ secrets.GCP_BK_TF }}"
+        env:
+          TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
+          TF_VAR_region: ${{ secrets.GCP_REGION }}
 
       - name: Terraform Plan
         if: ${{ github.event.inputs.action != 'destroy' }}
