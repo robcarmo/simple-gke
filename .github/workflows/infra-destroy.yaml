@@ -1,11 +1,6 @@
 name: Infrastructure Management
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'infra/**'
   workflow_dispatch:
     inputs:
       action:
