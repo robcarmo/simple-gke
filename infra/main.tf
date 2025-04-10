@@ -35,6 +35,11 @@ resource "google_container_node_pool" "default_pool" {
       env = "dev"
     }
   }
+
+  management {
+    auto_repair  = true
+    auto_upgrade = true # Set to true or false based on your preference
+  }
   version = google_container_cluster.gke_cluster.master_version
 }
 
@@ -64,5 +69,4 @@ resource "google_service_account" "gke_nodes" {
   account_id   = "gke-nodes"
   display_name = "GKE Node Pool Service Account"
 }
-
 ##
