@@ -8,7 +8,7 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = var.tfstate_bucket_name
+    bucket = "gen-lang-client-0683956833-tfstate"
     prefix = "terraform/state"
   }
 }
