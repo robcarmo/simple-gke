@@ -60,7 +60,8 @@ jobs:
           GOOGLE_PROJECT: ${{ secrets.GCP_PROJECT_ID }} # <-- CREATE AND USE THIS SECRET
           # Pass other TF variables needed by your configuration
           TF_VAR_region: us-east1 # Use secrets if this changes per environment
-          # TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }} # Uncomment if your TF code needs project_id as a var
+          TF_VAR_tfstate_bucket_name: ${{ secrets.GCP_BK_TF }}
+
 
       - name: Terraform Validate
         id: validate
@@ -77,6 +78,8 @@ jobs:
           GOOGLE_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
           TF_VAR_region: us-east1
           TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }} # Uncomment if needed
+          TF_VAR_tfstate_bucket_name: ${{ secrets.GCP_BK_TF }}
+
 
       - name: Terraform Apply
         # Add conditions if you don't want apply on every push, e.g.:
